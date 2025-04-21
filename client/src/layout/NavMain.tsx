@@ -39,7 +39,7 @@ export function NavMain({
         </SidebarMenu>
         <SidebarMenu>
         {items.map((item) => {
-            const isActive = location.pathname === item.url 
+            const isActive = location.pathname.includes(item.url);
 
             return (
               <SidebarMenuItem key={item.title}>

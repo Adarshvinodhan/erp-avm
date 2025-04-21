@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,6 @@ interface Item {
 
 export default function ItemDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -76,28 +75,38 @@ export default function ItemDetail() {
 
   const handleSave = async () => {
     try {
-      const sanitizedSubcategories = item?.subcategories.map(({ _id, ...rest }) => rest);
+      const sanitizedSubcategories = item?.subcategories.map(
+        ({ _id, ...rest }) => rest
+      );
       const payload = { ...item, subcategories: sanitizedSubcategories };
-  
+
       await api.put(`/api/item/${item?._id}`, payload);
       toast.success("Item updated successfully!");
-      navigate("/inventory");
     } catch (error) {
       console.error("Error updating item:", error);
       toast.error("Failed to update item.");
     }
   };
 
-  const handleDeleteSubcategory = async (itemId: number, subcategoryId: number) => { 
+  const handleDeleteSubcategory = async (
+    itemId: number,
+    subcategoryId: number
+  ) => {
     try {
       await api.delete(`/api/item/${itemId}/sub/${subcategoryId}`);
       toast.success("Subcategory deleted successfully!");
+
+      if (item) {
+        const updatedSubcategories = item.subcategories.filter(
+          (sub) => sub._id !== subcategoryId
+        );
+        setItem({ ...item, subcategories: updatedSubcategories });
+      }
     } catch (error) {
       console.error("Error deleting subcategory:", error);
       toast.error("Failed to delete subcategory.");
     }
   };
-  
 
   if (loading) return <p>Loading...</p>;
   if (!item) return <p>Item not found.</p>;
@@ -204,7 +213,13 @@ export default function ItemDetail() {
                 }
                 placeholder="Price"
               />
-              <Button onClick={() => handleDeleteSubcategory(item._id, sub._id)}>Delete</Button>
+              <Button
+                onClick={() => handleDeleteSubcategory(item._id, sub._id)}
+                className="text-red-500"
+                variant={"ghost"}
+              >
+                Delete
+              </Button>
             </div>
           ))
         ) : (
