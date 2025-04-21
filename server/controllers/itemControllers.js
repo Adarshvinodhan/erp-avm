@@ -44,7 +44,7 @@ export const getItemById = async (req, res) => {
 
 export const updateItem = async (req, res) => {
     try {
-        const { id } = req.params;
+        const  id  = req.params.id;
         const { name, price, gst, subcategories, brand } = req.body;
         const item = await Item.findById(id);
         if (!item) {

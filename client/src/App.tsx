@@ -10,6 +10,7 @@ import InventoryPage from "./pages/InventoryPage";
 import ReportsPage from "./pages/ReportsPage";
 import { Toaster } from "./components/ui/sonner";
 import CreateItem from "./pages/CreateItem";
+import ItemDetail from "./pages/ItemDetail";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                         <Route path="/purchase" element={<PurchasePage />} />
                         <Route path="/inventory" element={<InventoryPage />} />
                         <Route path="/inventory/add-item" element={<CreateItem/>}/>
+                        <Route path="/inventory/:id" element={<ItemDetail />} />
                         <Route path="/report" element={<ReportsPage />} />
                         
 
