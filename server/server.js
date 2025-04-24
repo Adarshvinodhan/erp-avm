@@ -17,6 +17,11 @@ app.use(express.json());
 
 app.use('/api', authRouter, itemRouter);
 
+app.use('/api', (req, res) => {
+   res.status(404).json({ error: 'API route not found' });
+ });
+ 
+
 app.get("*", (req, res) => {
    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
