@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AuthRoutes from "./routes/AuthRoutes";
+// import AuthRoutes from "./routes/AuthRoutes";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Dashboard from "./layout/Dashboard";
@@ -23,7 +23,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
 
                 <Route element={<Dashboard />}>
-                    <Route element={<AuthRoutes />}>
+                    {/* <Route element={<AuthRoutes />}> */}
 
                         <Route path="/" element={<HomePage />} />
                         <Route path="/sale" element={<SalePage />} />
@@ -34,7 +34,7 @@ function App() {
                         <Route path="/report" element={<ReportsPage />} />
                         
 
-                    </Route>
+                    {/* </Route> */}
                 </Route>
             </Routes>
         </BrowserRouter>
