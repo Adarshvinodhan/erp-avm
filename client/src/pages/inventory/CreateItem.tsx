@@ -1,7 +1,7 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../api.ts";
+import api from "../../api.ts";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

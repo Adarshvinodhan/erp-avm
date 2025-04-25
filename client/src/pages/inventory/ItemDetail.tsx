@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api";
+import api from "../../api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -33,6 +33,7 @@ export default function ItemDetail() {
       try {
         const res = await api.get(`/api/item/${id}`);
         setItem(res.data);
+        await console.log(item)
       } catch (err) {
         console.error("Failed to fetch item:", err);
       } finally {
@@ -93,14 +94,15 @@ export default function ItemDetail() {
     subcategoryId: number
   ) => {
     try {
-      await api.delete(`/api/item/${itemId}/sub/${subcategoryId}`);
-      toast.success("Subcategory deleted successfully!");
+
 
       if (item) {
         const updatedSubcategories = item.subcategories.filter(
           (sub) => sub._id !== subcategoryId
         );
         setItem({ ...item, subcategories: updatedSubcategories });
+        await api.delete(`/api/item/${itemId}/sub/${subcategoryId}`);
+        toast.success("Subcategory deleted successfully!");
       }
     } catch (error) {
       console.error("Error deleting subcategory:", error);

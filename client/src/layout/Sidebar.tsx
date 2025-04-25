@@ -5,6 +5,7 @@ import {
   IconListDetails,
   IconReport,
   IconDatabase,
+  IconCircleX
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/layout/NavMain"
@@ -21,6 +22,11 @@ import {
 
 const data = {
   navMain: [
+    {
+      title:"Companies",
+      url:  "/companies",
+      icon: IconCircleX
+    },
     {
       title: "Sales",
       url: "/sale",
@@ -61,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">AVM ERP</span>
+                <span className="text-base font-semibold">AVM Distributors</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

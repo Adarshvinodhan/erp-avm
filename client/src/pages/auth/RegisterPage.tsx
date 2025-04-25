@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GalleryVerticalEnd } from "lucide-react";
-import { LoginForm } from "@/components/forms/LoginForm";
-import api from "../api.ts";
-import { toast } from "sonner";
+import api from "../../api.ts";
+import { RegisterForm } from "@/components/forms/RegisterForm";
+import {toast} from 'sonner'
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/AuthSlice.tsx";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,30 +19,39 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const response = await api.post("api/login", { username: username, password: password });
+      const response = await api.post("api/register", {
+        email,
+        username,
+        password,
+      });
+      console.log("Registration successful:", response.data);
       localStorage.setItem("token", response.data.token);
       const userData = {
         user: response.data.user,
       };
-      dispatch(setUser(userData), console.log("user stored successfully"));
-
-      //Toast Notification
-      toast.success("Login successful", {
-        duration: 1500,
+      dispatch(setUser(userData), console.log(`user stored successfully${userData.user.username}`));
+      toast.success("Account Created successful",{
+        duration:1500,
         style: {
-          background: "white",
+          background: "white", 
           color: "black",
+          border: "1px solid black"
         },
       });
       setTimeout(() => {
         navigate("/");
-      }, 2000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed");
-      toast.error(error, { duration: 1500 });
-      console.error("Login failed:", err);
+      },2000);
       
+    } catch (err: any) {
+      console.error("Registration failed:", err);
+      setError(err.response?.data?.message || "Registration failed");
     }
   };
 
@@ -53,12 +64,15 @@ export default function LoginPage() {
           </div>
           Acme Inc.
         </a>
-        {/* Pass props to LoginForm */}
-        <LoginForm
+        <RegisterForm
           username={username}
-          password={password}
           setUsername={setUsername}
+          email={email}
+          setEmail={setEmail}
+          password={password}
           setPassword={setPassword}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
           error={error}
           handleSubmit={handleSubmit}
         />

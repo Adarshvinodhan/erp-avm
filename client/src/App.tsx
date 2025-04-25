@@ -1,16 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import AuthRoutes from "./routes/AuthRoutes";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
 import Dashboard from "./layout/Dashboard";
 import HomePage from "./pages/HomePage";
 import SalePage from "./pages/SalePage";
 import PurchasePage from "./pages/PurchasePage";
-import InventoryPage from "./pages/InventoryPage";
+import InventoryPage from "./pages/inventory/InventoryPage";
 import ReportsPage from "./pages/ReportsPage";
 import { Toaster } from "./components/ui/sonner";
-import CreateItem from "./pages/CreateItem";
-import ItemDetail from "./pages/ItemDetail";
+import CreateItem from "./pages/inventory/CreateItem";
+import ItemDetail from "./pages/inventory/ItemDetail";
+import Companies from "./pages/Companies";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     {/* <Route element={<AuthRoutes />}> */}
 
                         <Route path="/" element={<HomePage />} />
+                        <Route path="/companies" element={<Companies />} />
                         <Route path="/sale" element={<SalePage />} />
                         <Route path="/purchase" element={<PurchasePage />} />
                         <Route path="/inventory" element={<InventoryPage />} />

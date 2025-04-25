@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api";
+import api from "../../api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash } from "lucide-react";
