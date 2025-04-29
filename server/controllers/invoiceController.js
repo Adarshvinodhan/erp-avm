@@ -1,13 +1,18 @@
-import { Company } from "../models/companies";
-import Invoice from "../models/invoice";
-import { Item } from "../models/item";
+import { Company } from "../models/companies.js";
+import Invoice from "../models/invoice.js";
+import { Item } from "../models/item.js";
 
 const getAllInvoice = async (req,res)=>{
     try{
-
+        const invoices  = await Invoice.find();
+        return res.status(200).json({
+            invoices
+        })
     }
     catch(err){
-
+        return res.status(500).json({
+            message:err
+        })
     }
 }
 
@@ -22,7 +27,18 @@ const getInvoiceById = async (req,res)=>{
 
 const createInvoice = async (req, res) => {
     try{
-        const newInvoice = await Invoice.create(req.body);
+        const {company,date,item,subItems,type,total,products} = req.body;
+          for (const item of subItems) {
+            await Item.updateOne(
+              { "subcategories._id": item.subId },
+              { $inc: { "subcategories.$.quantity": -item.quantity } }
+            );
+          }
+          
+        const newInvoice = await Invoice.create({
+            company,date,item,type,total,subItems,products
+        });
+        
         res.status(201).json({message:"Invoice Created Successfully",
             invoice:newInvoice
         })

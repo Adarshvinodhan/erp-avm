@@ -6,6 +6,7 @@ import connectDB from './config/dbConfig.js';
 import authRouter from './routes/authRoutes.js';
 import itemRouter from './routes/iemRoutes.js';
 import { companyRouter } from './routes/companyRoutes.js';
+import { invoiceRouter } from './routes/invoiceRoutes.js';
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(express.static(path.join(__dirname, "/client/dist")));
 app.use(cors());
 app.use(express.json());
 
-app.use('/api', authRouter, itemRouter, companyRouter);
+app.use('/api', authRouter, itemRouter, companyRouter,invoiceRouter);
 
 app.get("*", (req, res) => {
    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));

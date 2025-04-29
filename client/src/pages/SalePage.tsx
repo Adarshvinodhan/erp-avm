@@ -2,16 +2,10 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
-
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import InvoiceForm from "../components/forms/InvoiceForm"; 
 interface Sale {
   id: string;
   customer: string;
@@ -27,6 +21,8 @@ const dummySales: Sale[] = [
 
 export default function SalePage() {
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
+
   const filteredSales = dummySales.filter((sale) =>
     sale.customer.toLowerCase().includes(search.toLowerCase())
   );
@@ -37,10 +33,17 @@ export default function SalePage() {
     <div className="p-4 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Sales Dashboard</h1>
-        <Button className="flex items-center gap-2">
-          <Plus className="w-4 h-4" />
-          Add Sale
-        </Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              Add Sale
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl">
+            <InvoiceForm defaultType="Sales" onSuccess={() => setOpen(false)} />
+          </DialogContent>
+        </Dialog>
       </div>
 
       <Card className="bg-blue-50 border-blue-200">

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { Company } from './companies';
-import { Item } from './item';
+import { Company } from './companies.js';
+import { Item } from './item.js';
 
 const invoiceSchema = new mongoose.Schema({
     company:{
@@ -11,13 +11,29 @@ const invoiceSchema = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
-    Item:{
+    item:{
         type:mongoose.Schema.ObjectId,
         ref:Item
     },
+    subItems:[
+        {
+            subId:mongoose.Schema.ObjectId,
+            quantity:Number
+        }
+    ],
+    products:[
+        {
+            itemName:String,
+            itemSub:String,
+            subQt:String
+        }
+    ],
     type:{
         type:String,
         enum:["Sales","Purchase"],
+    },
+    total:{
+        type:String
     }
 });
 
