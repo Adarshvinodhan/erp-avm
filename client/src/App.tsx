@@ -13,6 +13,7 @@ import CreateItem from "./pages/inventory/CreateItem";
 import ItemDetail from "./pages/inventory/ItemDetail";
 import Companies from "./pages/Companies";
 import CreateInvoice from "./pages/NewInvoice";
+import InvoiceDetailPage from "./pages/InvoiceDetail";
 
 function App() {
     return (
@@ -36,6 +37,8 @@ function App() {
                         <Route path="/inventory/:id" element={<ItemDetail />} />
                         <Route path="/report" element={<ReportsPage />} />
                         <Route path="/new-invoice" element={<CreateInvoice/>}/>
+
+        <Route path="/invoices/:id" element={<InvoiceDetailPage />} />  
                         
 
                     {/* </Route> */}

@@ -41,7 +41,7 @@ export default function Companies() {
   const fetchCompanies = async () => {
     try {
       const res = await api.get("/api/companies");
-      setCompanies(res.data.companies);
+      setCompanies(res.data);
     } catch (error) {
       toast.error("Failed to fetch companies");
     }

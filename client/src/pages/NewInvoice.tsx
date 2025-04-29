@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+
+import { toast } from "sonner";
 import api from "../api";
 import {
   Card,
@@ -49,7 +51,7 @@ export default function CreateInvoice() {
   const [type, setType] = useState<"Sales" | "Purchase" | "">("");
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
+  useEffect(() => {    //Store company and Item data to state
     api.get("/api/companies").then((res) => setCompanies(res.data));
     api.get("/api/items").then((res) => setItems(res.data));
   }, []);
@@ -67,7 +69,7 @@ export default function CreateInvoice() {
     setTotal(totalSum);
   }, [invoiceItems]);
 
-  const handleAddMainItem = () => {
+  const handleAddMainItem = () => {    //creating empty inputs for adding new Item
     setInvoiceItems([
       ...invoiceItems,
       {
@@ -87,7 +89,7 @@ export default function CreateInvoice() {
     setInvoiceItems(updated);
   };
 
-  const handleAddSubItem = (itemIndex: number) => {
+  const handleAddSubItem = (itemIndex: number) => {    //creating empty inputs for new sub
     const updated = [...invoiceItems];
     updated[itemIndex].subItems.push({
       subId: "",
@@ -126,20 +128,37 @@ export default function CreateInvoice() {
         type,
         total,
         date: new Date(),
-        products: [],
+        products: invoiceItems.map((item) => {
+          const mainItem = items.find((i) => i._id === item.itemId);
+          const mainItemName = mainItem?.name || "Unknown Item";
+  
+          return item.subItems.map((sub: any) => {
+            const subItem = (mainItem?.subcategories || []).find(
+              (s) => s._id === sub.subId
+            );
+            const subItemcolor = subItem?.color  || "Unknown SubItem";
+            const subItemModel = subItem?.model  || "Unknown SubItem";
+            const subItemSize = subItem?.size  || "Unknown SubItem";
+            const price = sub.price || 0;
+            return `${mainItemName} - ${subItemModel} - ${subItemcolor} - ${subItemSize} - ₹${price}`;
+          });
+        }).flat(),
         subItems: invoiceItems.flatMap((item) => item.subItems),
         item: invoiceItems.map((i) => i.itemId),
       };
-
+      await console.log(formatted)
+      
+  
       await api.post("/api/invoice", formatted);
-      alert("Invoice Created Successfully");
+      toast.success("Invoice Created Successfully");
     } catch (err) {
-      alert("Error creating invoice");
+      toast.warning("Error creating invoice");
     }
   };
+  
 
   return (
-<Card className="w-full mx-auto mt-10 p-10 space-y-8 shadow-lg rounded-2xl bg-white print:bg-white">
+<Card className="w-full mx-auto  space-y-8 shadow-lg rounded-2xl bg-white print:bg-white">
   <CardContent className="space-y-8 text-base">
     {/* Invoice Header */}
     <div className="grid md:grid-cols-3 gap-6 border-b pb-6">

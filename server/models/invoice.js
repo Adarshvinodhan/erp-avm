@@ -11,29 +11,24 @@ const invoiceSchema = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
-    item:{
+    item:[{
         type:mongoose.Schema.ObjectId,
         ref:Item
-    },
+      }],
     subItems:[
         {
             subId:mongoose.Schema.ObjectId,
-            quantity:Number
+            quantity:Number,
+            price:Number
         }
     ],
-    products:[
-        {
-            itemName:String,
-            itemSub:String,
-            subQt:String
-        }
-    ],
+    products:[String],
     type:{
         type:String,
         enum:["Sales","Purchase"],
     },
     total:{
-        type:String
+        type:Number
     }
 });
 
