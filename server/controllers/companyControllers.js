@@ -3,9 +3,7 @@ import { Company } from "../models/companies.js";
 const getAllCompanies = async(req,res)=>{
     try{
         const companies = await Company.find();
-        return res.status(200).json({
-            companies:companies
-        })
+        return res.status(200).json(companies)
     }
     catch(err){
         console.log(err);
