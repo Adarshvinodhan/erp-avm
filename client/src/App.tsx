@@ -12,8 +12,8 @@ import { Toaster } from "./components/ui/sonner";
 import CreateItem from "./pages/inventory/CreateItem";
 import ItemDetail from "./pages/inventory/ItemDetail";
 import Companies from "./pages/Companies";
-import CreateInvoice from "./pages/NewInvoice";
-import InvoiceDetailPage from "./pages/InvoiceDetail";
+import CreateInvoice from "./pages/invoice/NewInvoice";
+import InvoiceDetailPage from "./pages/invoice/InvoiceDetail";
 
 function App() {
     return (
@@ -28,18 +28,18 @@ function App() {
                 <Route element={<Dashboard />}>
                     {/* <Route element={<AuthRoutes />}> */}
 
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/companies" element={<Companies />} />
-                        <Route path="/sale" element={<SalePage />} />
-                        <Route path="/purchase" element={<PurchasePage />} />
-                        <Route path="/inventory" element={<InventoryPage />} />
-                        <Route path="/inventory/add-item" element={<CreateItem/>}/>
-                        <Route path="/inventory/:id" element={<ItemDetail />} />
-                        <Route path="/report" element={<ReportsPage />} />
-                        <Route path="/new-invoice" element={<CreateInvoice/>}/>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/companies" element={<Companies />} />
+                    <Route path="/sale" element={<SalePage />} />
+                    <Route path="/purchase" element={<PurchasePage />} />
+                    <Route path="/inventory" element={<InventoryPage />} />
+                    <Route path="/inventory/add-item" element={<CreateItem />} />
+                    <Route path="/inventory/:id" element={<ItemDetail />} />
+                    <Route path="/report" element={<ReportsPage />} />
+                    <Route path="/new-invoice" element={<CreateInvoice />} />
 
-        <Route path="/invoices/:id" element={<InvoiceDetailPage />} />  
-                        
+                    <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
+
 
                     {/* </Route> */}
                 </Route>
