@@ -1,5 +1,6 @@
 import { useState, useEffect, FormEvent } from "react";
 import api from "../api";
+import { Company } from "@/types";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,14 +14,6 @@ import {
 } from "@/components/ui/table";
 import { Pencil, Trash } from "lucide-react";
 
-interface Company {
-  _id: string;
-  name: string;
-  email: string;
-  gst: string;
-  phone: string;
-  address: string;
-}
 
 export default function Companies() {
   const [companies, setCompanies] = useState<Company[]>([]);

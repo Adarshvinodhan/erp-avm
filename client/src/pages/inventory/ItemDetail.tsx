@@ -1,27 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api";
+import { Item, Subcategory } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
-interface Subcategory {
-  _id: number;
-  color: string;
-  quantity: number;
-  model: string;
-  size: string;
-  price: number;
-}
-
-interface Item {
-  _id: number;
-  name: string;
-  brand: string;
-  price: number;
-  gst: string;
-  subcategories: Subcategory[];
-}
 
 export default function ItemDetail() {
   const { id } = useParams();

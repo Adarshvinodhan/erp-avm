@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../api";
+import { Item } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash } from "lucide-react";
@@ -16,21 +17,6 @@ import {
 } from "@/components/ui/table";
 
 export default function InventoryPage() {
-  interface Item {
-    _id: number;
-    name: string;
-    brand: string;
-    price: number;
-    gst: string;
-    subcategories: {
-      _id: number;
-      color: string;
-      quantity: number;
-      model: string;
-      size: string;
-      price: number;
-    }[];
-  }
 
   const [items, setItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
