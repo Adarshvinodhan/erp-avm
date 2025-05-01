@@ -18,7 +18,7 @@ const getAllInvoice = async (req,res)=>{
 
 const getInvoiceById = async (req, res) => {
     try {
-      const invoice = await Invoice.findById(req.params.id).populate("company", "name");
+      const invoice = await Invoice.findById(req.params.id).populate("company");
       if (!invoice) return res.status(404).json({ error: "Invoice not found" });
       res.json(invoice);
     } catch (err) {
