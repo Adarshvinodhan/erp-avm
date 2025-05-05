@@ -66,7 +66,7 @@ export default function InvoiceDetailPage() {
 
         {/* Bill To */}
         <div className="mb-6">
-          <h4 className="text-md font-semibold mb-1">Bill To:</h4>
+          <h4 className="text-md font-semibold mb-1">Party Name</h4>
           <p className="text-sm">{invoice.company.name}</p>
           <p className="text-sm">{invoice.company.address}</p>
           <p className="text-sm">{invoice.company.phone}</p>

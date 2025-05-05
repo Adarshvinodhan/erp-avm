@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { Company } from "@/types";
 import { toast } from "sonner";
 import api from "../../api";
 import {
@@ -22,11 +22,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-
-interface Company {
-  _id: string;
-  name: string;
-}
 
 interface Item {
   _id: string;
@@ -136,11 +131,11 @@ export default function CreateInvoice() {
             const subItem = (mainItem?.subcategories || []).find(
               (s) => s._id === sub.subId
             );
-            const subItemcolor = subItem?.color  || "Unknown SubItem";
-            const subItemModel = subItem?.model  || "Unknown SubItem";
-            const subItemSize = subItem?.size  || "Unknown SubItem";
+            const subItemcolor = subItem?.color  || "";
+            const subItemModel = subItem?.model  || "";
+            const subItemSize = subItem?.size  || "";
             const price = sub.price || 0;
-            return `${mainItemName} - ${subItemModel} - ${subItemcolor} - ${subItemSize} - ₹${price}`;
+            return `${mainItemName}-${subItemModel}-${subItemcolor}-${subItemSize}-₹${price}`;
           });
         }).flat(),
         subItems: invoiceItems.flatMap((item) => item.subItems),
