@@ -2,19 +2,22 @@ import mongoose from "mongoose";
 
 const subCategorySchema = new mongoose.Schema({
     color: {
-        type: String,
+        type: String
     },
     quantity: {
-        type: Number,
+        type: Number
     },
     model: {
-        type: String,
+        type: String
     },
     size: {
-        type: String,
+        type: String
     },
     price: {
-        type: Number,
+        type: Number
+    },
+    img:{
+        type:String
     }
 });
 

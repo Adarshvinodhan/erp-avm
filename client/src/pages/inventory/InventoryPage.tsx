@@ -34,7 +34,7 @@ export default function InventoryPage() {
     fetchItems();
   }, []);
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     try {
       await api.delete(`api/item/${id}`);
       setItems(items.filter((item) => item._id !== id));
@@ -92,7 +92,7 @@ export default function InventoryPage() {
                     <TableCell  onClick={() => navigate(`/inventory/${item._id}`)}>{item.brand}</TableCell>
                     <TableCell  onClick={() => navigate(`/inventory/${item._id}`)}>{item.price}</TableCell>
                     <TableCell  onClick={() => navigate(`/inventory/${item._id}`)}>{item.gst}</TableCell>
-                    <TableCell><Pencil  onClick={() => navigate(`/inventory/${item._id}`)} className="h-4 w-4"/></TableCell>
+                    <TableCell><Pencil  onClick={() => navigate(`/inventory/edit/${item._id}`)} className="h-4 w-4"/></TableCell>
                     <TableCell><Trash onClick={() => handleDelete(item._id)} className="h-4 w-4"/></TableCell>
                   </TableRow>
                 ))

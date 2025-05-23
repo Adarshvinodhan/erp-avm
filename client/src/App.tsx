@@ -10,10 +10,11 @@ import InventoryPage from "./pages/inventory/InventoryPage";
 import ReportsPage from "./pages/ReportsPage";
 import { Toaster } from "./components/ui/sonner";
 import CreateItem from "./pages/inventory/CreateItem";
-import ItemDetail from "./pages/inventory/ItemDetail";
+import ItemDetail from "./pages/inventory/ItemEdit";
 import Companies from "./pages/Companies";
 import CreateInvoice from "./pages/invoice/NewInvoice";
 import InvoiceDetailPage from "./pages/invoice/InvoiceDetail";
+import ItemView from "./pages/inventory/ItemView";
 
 function App() {
     return (
@@ -32,12 +33,15 @@ function App() {
                     <Route path="/companies" element={<Companies />} />
                     <Route path="/sale" element={<SalePage />} />
                     <Route path="/purchase" element={<PurchasePage />} />
+
+                    {/* Inventory */}
                     <Route path="/inventory" element={<InventoryPage />} />
                     <Route path="/inventory/add-item" element={<CreateItem />} />
-                    <Route path="/inventory/:id" element={<ItemDetail />} />
+                    <Route path="/inventory/edit/:id" element={<ItemDetail />} />
+                    <Route path="/inventory/:id" element={<ItemView/>} />
+
                     <Route path="/report" element={<ReportsPage />} />
                     <Route path="/new-invoice" element={<CreateInvoice />} />
-
                     <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
 
 

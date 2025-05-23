@@ -7,7 +7,7 @@ import api from "../api";
 
 interface Invoice {
   _id: string;
-  company: {
+  companyId: {
     _id: string;
     name: string;
   };
@@ -20,11 +20,16 @@ export default function SalePage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [search, setSearch] = useState("");
 
+  useEffect(()=>{
+    console.log(invoices)
+  },[invoices])
+
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
         const res = await api.get("/api/invoices/sales");
         setInvoices(res.data.invoices);
+        console.log(res.data.invoices)
       } catch (err) {
         console.error("Failed to fetch invoices", err);
       }
@@ -34,7 +39,7 @@ export default function SalePage() {
   }, []);
 
   const filteredSales = invoices.filter((inv) =>
-    inv.company.name.toLowerCase().includes(search.toLowerCase())
+    inv.companyId.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -76,7 +81,7 @@ export default function SalePage() {
             <Link to={`/invoices/${sale._id}`} key={sale._id} className="contents">
               <TableRow className="cursor-pointer hover:bg-gray-50">
                 <TableCell>{new Date(sale.date).toLocaleDateString()}</TableCell>
-                <TableCell>{sale.company.name}</TableCell>
+                <TableCell>{sale.companyId.name}</TableCell>
                 <TableCell>₹{sale.total.toLocaleString()}</TableCell>
               </TableRow>
             </Link>

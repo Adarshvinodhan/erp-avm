@@ -14,7 +14,7 @@ export interface Item {
     price: number;
     gst: string;
     subcategories: {
-      _id: number;
+      _id: string;
       color: string;
       quantity: number;
       model: string;

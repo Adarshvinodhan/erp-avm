@@ -47,7 +47,7 @@ export default function ItemDetail() {
   const handleAddSubcategory = () => {
     if (!item) return;
     const newSub: Subcategory = {
-      _id: Date.now(), // temporary unique ID
+      _id: Date.now().toString(), // temporary unique ID
       model: "",
       color: "",
       size: "",
@@ -73,8 +73,8 @@ export default function ItemDetail() {
   };
 
   const handleDeleteSubcategory = async (
-    itemId: number,
-    subcategoryId: number
+    itemId: string,
+    subcategoryId: string
   ) => {
     try {
 
