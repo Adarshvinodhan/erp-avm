@@ -9,6 +9,8 @@ export default function InvoiceDetailPage() {
   const { id } = useParams();
   const [invoice, setInvoice] = useState<any>(null);
   const printRef = useRef<HTMLDivElement>(null);
+  const [zoomPreview, setZoomPreview] = useState(false);
+
 
   const handlePrint = useReactToPrint({
     contentRef: printRef, // Pass the ref of the content to print
@@ -38,15 +40,22 @@ export default function InvoiceDetailPage() {
   return (
 <div className="p-4 space-y-4">
   {/* Hide Download button in print */}
-  <div className="flex justify-end print:hidden">
-    <Button onClick={handlePrint}>Download as PDF</Button>
-  </div>
+  <div className="flex justify-end space-x-2 print:hidden">
+  <Button onClick={handlePrint}>Download as PDF</Button>
+  <Button variant="outline" onClick={() => setZoomPreview(!zoomPreview)}>
+    {zoomPreview ? "Normal View" : "Preview Invoice"}
+  </Button>
+</div>
+
 
   {/* A4-sized Printable Container */}
   <div
-    ref={printRef}
-    className="invoice-a4 bg-white shadow text-black mx-auto border border-gray-300"
-  >
+  ref={printRef}
+  className={`invoice-a4 bg-white shadow text-black mx-auto border border-gray-300 transition-transform duration-300 ${
+    zoomPreview ? "scale-75 origin-top" : ""
+  }`}
+>
+
     <div className="flex flex-col justify-between h-full p-8">
       {/* Top Content */}
       <div>

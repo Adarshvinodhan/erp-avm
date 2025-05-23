@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -24,7 +23,7 @@ export default function SalePage() {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const res = await api.get("/api/invoices");
+        const res = await api.get("/api/invoices/sales");
         setInvoices(res.data.invoices);
       } catch (err) {
         console.error("Failed to fetch invoices", err);
@@ -38,27 +37,14 @@ export default function SalePage() {
     inv.company.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const total = invoices.reduce((sum, inv) => sum + inv.total, 0);
-
   return (
 <div className="p-4 max-w-5xl mx-auto space-y-6"> 
-  <div className="flex justify-between items-center">
+  <div className="flex justify-around items-center">
     <h1 className="text-2xl font-bold">Sales Dashboard</h1>
-    <Link to="/new-invoice" className="flex items-center gap-2">
-      <Plus className="w-4 h-4" />
-      Add Sale
+    <Link to="/new-invoice" className="flex items-center rounded-full bg-black text-white">
+      <Plus className="w-6 h-6" />
     </Link>
   </div>
-
-  <Card className="bg-blue-50 border-blue-200 max-w-full">
-    <CardHeader>
-      <CardTitle>Total Sales</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className=" font-semibold text-blue-600">₹{total.toLocaleString()}</p>
-    </CardContent>
-  </Card>
-
   <div className="flex justify-between items-center">
     <h2 className="text-lg font-semibold">Recent Sales</h2>
     <Input

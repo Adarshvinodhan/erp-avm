@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Company } from "@/types";
+import { Item } from "@/types";
+import { Subcategory } from "@/types";
 import { toast } from "sonner";
 import api from "../../api";
 import {
@@ -23,24 +25,10 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-interface Item {
-  _id: string;
-  name: string;
-  subcategories: SubItem[];
-}
-
-interface SubItem {
-  _id: string;
-  color?: string;
-  size?: string;
-  model?: string;
-  price: number;
-  quantity: number;
-}
-
 export default function CreateInvoice() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [items, setItems] = useState<Item[]>([]);
+  const [date,setDate] = useState(new Date().toLocaleDateString())
   const [selectedCompany, setSelectedCompany] = useState("");
   const [invoiceItems, setInvoiceItems] = useState<any[]>([]);
   const [type, setType] = useState<"Sales" | "Purchase" | "">("");
@@ -51,7 +39,7 @@ export default function CreateInvoice() {
     api.get("/api/items").then((res) => setItems(res.data));
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {   //Calculate Total 
     const totalSum = invoiceItems.reduce((acc, item) => {
       return (
         acc +
@@ -119,31 +107,13 @@ export default function CreateInvoice() {
   const handleSubmit = async () => {
     try {
       const formatted = {
-        company: selectedCompany,
-        type,
-        total,
-        date: new Date(),
-        products: invoiceItems.map((item) => {
-          const mainItem = items.find((i) => i._id === item.itemId);
-          const mainItemName = mainItem?.name || "Unknown Item";
-  
-          return item.subItems.map((sub: any) => {
-            const subItem = (mainItem?.subcategories || []).find(
-              (s) => s._id === sub.subId
-            );
-            const subItemcolor = subItem?.color  || "";
-            const subItemModel = subItem?.model  || "";
-            const subItemSize = subItem?.size  || "";
-            const price = sub.price || 0;
-            return `${mainItemName}-${subItemModel}-${subItemcolor}-${subItemSize}-₹${price}`;
-          });
-        }).flat(),
-        subItems: invoiceItems.flatMap((item) => item.subItems),
+        companyId: selectedCompany,
+        date,
         item: invoiceItems.map((i) => i.itemId),
-      };
-      await console.log(formatted)
-      
-  
+        subItems: invoiceItems.flatMap((item) => item.subItems),
+        type,
+        total
+      };  
       await api.post("/api/invoice", formatted);
       toast.success("Invoice Created Successfully");
     } catch (err) {
@@ -155,8 +125,8 @@ export default function CreateInvoice() {
   return (
 <Card className="w-full mx-auto  space-y-8 shadow-lg rounded-2xl bg-white print:bg-white">
   <CardContent className="space-y-8 text-base">
-    {/* Invoice Header */}
     <div className="grid md:grid-cols-3 gap-6 border-b pb-6">
+      {/* Select company */}
       <div>
         <Label className="text-base font-medium">Company</Label>
         <Select onValueChange={setSelectedCompany}>
@@ -172,7 +142,7 @@ export default function CreateInvoice() {
           </SelectContent>
         </Select>
       </div>
-
+      {/* Select Invoice-Type */}
       <div>
         <Label className="text-base font-medium">Invoice Type</Label>
         <Select onValueChange={(v) => setType(v as "Sales" | "Purchase")}>
@@ -185,16 +155,16 @@ export default function CreateInvoice() {
           </SelectContent>
         </Select>
       </div>
-
-      <div>
+      {/* Date */}
+      <div>       
         <Label className="text-base font-medium">Date</Label>
-        <div className="h-10 flex items-center mt-1">
-          {new Date().toLocaleDateString()}
-        </div>
+        <Input 
+          value={date}
+          onChange={e=>setDate(e.target.value)}
+        />
       </div>
     </div>
-
-    {/* Invoice Line Items Table */}
+    {/* Select Main-Item */}
     <div className="border-t pt-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Invoice Items</h3>
@@ -202,7 +172,6 @@ export default function CreateInvoice() {
           + Add Item
         </Button>
       </div>
-
       {invoiceItems.map((item, itemIndex) => (
         <div key={itemIndex} className="space-y-4 border rounded-lg p-4 bg-gray-50">
           {/* Item Header */}
@@ -250,7 +219,7 @@ export default function CreateInvoice() {
                           <SelectValue placeholder="Select" />
                         </SelectTrigger>
                         <SelectContent>
-                          {item.availableSubItems.map((s: SubItem) => (
+                          {item.availableSubItems.map((s: Subcategory) => (
                             <SelectItem key={s._id} value={s._id}>
                               {`${s.color || ""} ${s.size || ""} ${s.model || ""}`.trim()}
                             </SelectItem>

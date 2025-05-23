@@ -3,35 +3,50 @@ import { Company } from './companies.js';
 import { Item } from './item.js';
 
 const invoiceSchema = new mongoose.Schema({
-    company:{
-        type:mongoose.Schema.ObjectId,
-        ref:Company
+    companyId: {
+        type: mongoose.Schema.ObjectId,
+        ref: Company
     },
-    date:{
-        type:Date,
-        default:Date.now
+    date: {
+        type: Date,
+        default: Date.now
     },
-    item:[{
-        type:mongoose.Schema.ObjectId,
-        ref:Item
-      }],
-    subItems:[
+    item: [{
+        ItemId: {
+            type: mongoose.Schema.ObjectId,
+            ref: Item
+        },
+        name: {
+            type: String,
+        },
+        brand: {
+            type: String,
+        },
+        price: {
+            type: Number,
+        },
+        gst: {
+            type: String,
+        }
+    }],
+    subItems: [
         {
-            subId:mongoose.Schema.ObjectId,
-            quantity:Number,
-            price:Number
+            subId: mongoose.Schema.ObjectId,
+            quantity: Number,
+            price: Number,
+            model: String,
+            size: String,
         }
     ],
-    products:[String],
-    type:{
-        type:String,
-        enum:["Sales","Purchase"],
+    type: {
+        type: String,
+        enum: ["Sales", "Purchase"],
     },
-    total:{
-        type:Number
+    total: {
+        type: Number
     }
 });
 
-const Invoice = mongoose.model('Invoice',invoiceSchema);
+const Invoice = mongoose.model('Invoice', invoiceSchema);
 
 export default Invoice;

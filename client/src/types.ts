@@ -8,7 +8,7 @@ export interface Company {
 }
 
 export interface Item {
-    _id: number;
+    _id: string;
     name: string;
     brand: string;
     price: number;
@@ -24,7 +24,7 @@ export interface Item {
   }
  
 export interface Subcategory {
-    _id: number;
+    _id: string;
     color: string;
     quantity: number;
     model: string;
