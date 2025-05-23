@@ -97,124 +97,127 @@ export default function ItemDetail() {
   if (!item) return <p>Item not found.</p>;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold mb-4">Edit Item</h1>
+<div className="space-y-8">
+  <div className="border-b pb-4">
+    <h1 className="text-2xl font-bold">Edit Item</h1>
+    <p className="text-sm text-muted-foreground">Update item and its subcategory details below.</p>
+  </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="font-medium">Name</label>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-700">Name</label>
+      <Input name="name" value={item.name} onChange={handleInputChange} placeholder="Name" />
+    </div>
+
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-700">Brand</label>
+      <Input name="brand" value={item.brand} onChange={handleInputChange} placeholder="Brand" />
+    </div>
+
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-700">Price</label>
+      <Input
+        name="price"
+        type="number"
+        value={item.price}
+        onChange={handleInputChange}
+        placeholder="Price"
+      />
+    </div>
+
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-700">GST</label>
+      <Input
+        name="gst"
+        value={item.gst}
+        onChange={handleInputChange}
+        placeholder="GST"
+      />
+    </div>
+  </div>
+
+  <div className="flex items-center justify-between pt-6">
+    <h2 className="text-xl font-semibold">Subcategories</h2>
+    <Button onClick={handleAddSubcategory}>+ Add Subcategory</Button>
+  </div>
+
+  <div className="rounded-lg border border-gray-200 divide-y overflow-auto">
+    <div className="grid grid-cols-2 md:grid-cols-6 bg-gray-100 text-sm font-semibold px-3 py-2">
+      <div>Model</div>
+      <div>Color</div>
+      <div>Size</div>
+      <div>Quantity</div>
+      <div>Price</div>
+      <div className="text-center">Action</div>
+    </div>
+
+    {item?.subcategories?.length > 0 ? (
+      item.subcategories.map((sub, index) => (
+        <div
+          key={sub._id}
+          className="grid grid-cols-2 md:grid-cols-6 gap-2 px-3 py-2 items-center"
+        >
           <Input
-            name="name"
-            value={item.name}
-            onChange={handleInputChange}
-            placeholder="Name"
+            value={sub.model}
+            onChange={(e) =>
+              handleSubcategoryChange(index, "model", e.target.value)
+            }
+            placeholder="Model"
           />
-        </div>
-        <div>
-          <label className="font-medium">Brand</label>
           <Input
-            name="brand"
-            value={item.brand}
-            onChange={handleInputChange}
-            placeholder="Brand"
+            value={sub.color}
+            onChange={(e) =>
+              handleSubcategoryChange(index, "color", e.target.value)
+            }
+            placeholder="Color"
           />
-        </div>
-        <div>
-          <label className="font-medium">Price</label>
           <Input
-            name="price"
+            value={sub.size}
+            onChange={(e) =>
+              handleSubcategoryChange(index, "size", e.target.value)
+            }
+            placeholder="Size"
+          />
+          <Input
             type="number"
-            value={item.price}
-            onChange={handleInputChange}
+            value={String(sub.quantity)}
+            onChange={(e) =>
+              handleSubcategoryChange(index, "quantity", e.target.value)
+            }
+            placeholder="Quantity"
+          />
+          <Input
+            type="number"
+            value={String(sub.price)}
+            onChange={(e) =>
+              handleSubcategoryChange(index, "price", e.target.value)
+            }
             placeholder="Price"
           />
-        </div>
-        <div>
-          <label className="font-medium">GST</label>
-          <Input
-            name="gst"
-            value={item.gst}
-            onChange={handleInputChange}
-            placeholder="GST"
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between mt-8">
-        <h2 className="text-xl font-semibold">Subcategories</h2>
-        <Button onClick={handleAddSubcategory}>+ Add Subcategory</Button>
-      </div>
-
-      <div className="overflow-auto rounded border border-gray-200">
-        <div className="grid grid-cols-2 md:grid-cols-6 font-medium bg-gray-100 p-2">
-          <div>Model</div>
-          <div>Color</div>
-          <div>Size</div>
-          <div>Quantity</div>
-          <div>Price</div>
-          <div></div>
-        </div>
-
-        {item?.subcategories?.length > 0 ? (
-          item.subcategories.map((sub, index) => (
-            <div
-              key={sub._id}
-              className="grid grid-cols-2 md:grid-cols-6 gap-2 p-2 border-t"
+          <div className="text-center">
+            <Button
+              onClick={() => handleDeleteSubcategory(item._id, sub._id)}
+              className="text-red-500"
+              variant="ghost"
             >
-              <Input
-                value={sub.model}
-                onChange={(e) =>
-                  handleSubcategoryChange(index, "model", e.target.value)
-                }
-                placeholder="Model"
-              />
-              <Input
-                value={sub.color}
-                onChange={(e) =>
-                  handleSubcategoryChange(index, "color", e.target.value)
-                }
-                placeholder="Color"
-              />
-              <Input
-                value={sub.size}
-                onChange={(e) =>
-                  handleSubcategoryChange(index, "size", e.target.value)
-                }
-                placeholder="Size"
-              />
-              <Input
-                type="number"
-                value={String(sub.quantity)}
-                onChange={(e) =>
-                  handleSubcategoryChange(index, "quantity", e.target.value)
-                }
-                placeholder="Quantity"
-              />
-              <Input
-                type="number"
-                value={String(sub.price)}
-                onChange={(e) =>
-                  handleSubcategoryChange(index, "price", e.target.value)
-                }
-                placeholder="Price"
-              />
-              <Button
-                onClick={() => handleDeleteSubcategory(item._id, sub._id)}
-                className="text-red-500"
-                variant={"ghost"}
-              >
-                Delete
-              </Button>
-            </div>
-          ))
-        ) : (
-          <div className="p-4 text-gray-500">No subcategories found.</div>
-        )}
+              Delete
+            </Button>
+          </div>
+        </div>
+      ))
+    ) : (
+      <div className="px-4 py-6 text-center text-muted-foreground text-sm">
+        No subcategories found.
       </div>
+    )}
+  </div>
 
-      <Button onClick={handleSave} className="mt-6">
-        Save
-      </Button>
-    </div>
+  <div className="pt-4">
+    <Button onClick={handleSave} className="w-full md:w-auto">
+      Save
+    </Button>
+  </div>
+</div>
+
   );
 }

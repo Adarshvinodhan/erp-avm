@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import api from '../../api'
 import { Item } from "@/types";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
